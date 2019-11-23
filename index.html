@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+</head>
+<body>
+    <p>Welcome lost stranger. <br>
+        Here is a quick game you can play before your continue on your long journey. <br>
+        The game is called rock, paper, scissors. <br>
+        You can choose either a rock, a paper, or a scissor. Once you do the computer will choose either of the three. <br>
+        The rules are quiet simple. <br>
+        1. N vs N = draw (WHERE N is either rock, paper, or scissors) <br>
+        2. Rock vs Paper = Paper wins <br>
+        3. Rock vs Scissor = Rock wins <br>
+        4. Scissor vs Paper = Scissor wins <br>
+    </p>
+
+    <button onclick="game()">Start</button>
+    <br>
+    <hr>
+    <br>
+
+    <p id="results"></p>
+</body>
+</html>
+
+<script>
+    /**
+     * Returns a random integer between min (inclusive) and max (inclusive).
+     * The value is no lower than min (or the next integer greater than min
+     * if min isn't an integer) and no greater than max (or the next integer
+     * lower than max if max isn't an integer).
+     * Using Math.round() will give you a non-uniform distribution!
+     */
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // This function returns the computer choice in this game
+    function computerPlay()
+    {
+        // Generate random variable between 0 and 3. This is equla to
+        // the array index
+        return getRandomInt(0, 2);
+    }
+    
+    // This function plays the game and returns the winner
+    // 0 for computer
+    // 1 for user
+    function playRound(playerSelection, computerSelection)
+    {
+        // Create an array for the rock paper and scissors
+        var options = ['rock', 'paper', 'scissor'];
+
+        if(options[playerSelection] == options[computerSelection])
+        {   // Draw
+            return 3;
+        }
+        else if(options[playerSelection] == 'rock' && options[computerSelection] == 'paper')
+        {
+            return 1;
+        }
+        else if(options[playerSelection] == 'rock' && options[computerSelection] == 'scissor')
+        {
+            return 0;
+        }
+        else if(options[playerSelection] == 'scissor' && options[computerSelection] == 'paper')
+        {
+            return 1;
+        }
+        else if(options[playerSelection] == 'paper' && options[computerSelection] == 'rock')
+        {
+            return 0;
+        }
+        else if(options[playerSelection] == 'scissor' && options[computerSelection] == 'rock')
+        {
+            return 1;
+        }
+        else if(options[playerSelection] == 'paper' && options[computerSelection] == 'scissor')
+        {
+            return 0;
+        }
+        
+    }
+
+    function game()
+    {
+        // Store points for user and comp
+        var comp_points = 0;
+        var user_points = 0;
+
+        for(var i = 0; i < 5; ++i)
+        {
+            // Get computers choice
+            const computerSelection = computerPlay();
+
+            // Get user input
+            // Promt the user to enter a choice      
+            var playerSelection = prompt("Enter your input: \n" +
+                        "0 for rock\n" + 
+                        "1 for paper\n" +
+                        "2 for scissor");
+            
+            // Convert the input to integer
+            playerSelection = parseInt(playerSelection);
+
+            // Check if the input suplied is not a anumber
+            if(playerSelection != NaN)
+            {
+                 // Check if the input is greater than 2
+                if (playerSelection >= 0 && playerSelection <= 2)
+                {
+                    // The user input is okays
+                    // Play the game
+                    var result = playRound(playerSelection, computerSelection);
+                    console.log(playerSelection + " " + computerSelection + " " +result);
+
+                    if(result == 0)
+                    { // User won add one point to user
+                        ++user_points;
+                    }
+                    else if(result == 1)
+                    { // Computer won add one point to computer
+                        ++comp_points;
+                    }
+                    // The else part is a draw
+                }
+            }
+        }
+
+        // Will be used to print the results
+        var d = document.getElementById("results");
+
+        // Calculate and print final results
+        if(user_points > comp_points)
+        { // User won
+            d.innerHTML = "Congractulations you won this game. :-)";
+        }
+        else if(user_points == comp_points)
+        { // Draw
+            d.innerHTML = "Phew that was a close one you both tied in this game. :-|";
+        }
+        else
+        {// Comp won
+            d.innerHTML = "Unfortunately the computer won. :-(";
+        }
+    }  
+
+    // const playerSelection = 'rock'
+    // const computerSelection = computerPlay();
+    // console.log(playRound(playerSelection, computerSelection))
+</script>
