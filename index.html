@@ -18,7 +18,9 @@
         4. Scissor vs Paper = Scissor wins <br>
     </p>
 
-    <button onclick="game()">Start</button>
+    <button onclick="game(0)">Rock</button>
+    <button onclick="game(1)">Paper</button>
+    <button onclick="game(2)">Scissors</button>
     <br>
     <hr>
     <br>
@@ -88,48 +90,57 @@
         
     }
 
-    function game()
+    var round = 0;
+
+    function game(playerSelection)
     {
         // Store points for user and comp
         var comp_points = 0;
         var user_points = 0;
 
-        for(var i = 0; i < 5; ++i)
+        // Keep track of the game rounds
+        ++round;
+
+        // Check if the rounds are over
+        if(round > 5)
         {
-            // Get computers choice
-            const computerSelection = computerPlay();
-
-            // Get user input
-            // Promt the user to enter a choice      
-            var playerSelection = prompt("Enter your input: \n" +
-                        "0 for rock\n" + 
-                        "1 for paper\n" +
-                        "2 for scissor");
+            alert('Game over. Do you wish to retry?' + 
+            ' Click ok if yes or close this tab and continue on your journey');
             
-            // Convert the input to integer
-            playerSelection = parseInt(playerSelection);
+            // Reset the computer and user points
+            user_points = 0;
+            comp_points = 0;
 
-            // Check if the input suplied is not a anumber
-            if(playerSelection != NaN)
+            // Reset the round
+            round  = 0;
+        }
+
+        // Get computers choice
+        const computerSelection = computerPlay();
+        
+        // Convert the input to integer
+        playerSelection = parseInt(playerSelection);
+
+        // Check if the input suplied is not a anumber
+        if(playerSelection != NaN)
+        {
+                // Check if the input is greater than 2
+            if (playerSelection >= 0 && playerSelection <= 2)
             {
-                 // Check if the input is greater than 2
-                if (playerSelection >= 0 && playerSelection <= 2)
-                {
-                    // The user input is okays
-                    // Play the game
-                    var result = playRound(playerSelection, computerSelection);
-                    console.log(playerSelection + " " + computerSelection + " " +result);
+                // The user input is okays
+                // Play the game
+                var result = playRound(playerSelection, computerSelection);
+                console.log(playerSelection + " " + computerSelection + " " +result);
 
-                    if(result == 0)
-                    { // User won add one point to user
-                        ++user_points;
-                    }
-                    else if(result == 1)
-                    { // Computer won add one point to computer
-                        ++comp_points;
-                    }
-                    // The else part is a draw
+                if(result == 0)
+                { // User won add one point to user
+                    ++user_points;
                 }
+                else if(result == 1)
+                { // Computer won add one point to computer
+                    ++comp_points;
+                }
+                // The else part is a draw
             }
         }
 
@@ -149,7 +160,7 @@
         {// Comp won
             d.innerHTML = "Unfortunately the computer won. :-(";
         }
-    }  
+    }
 
     // const playerSelection = 'rock'
     // const computerSelection = computerPlay();
